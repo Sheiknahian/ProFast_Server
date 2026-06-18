@@ -10,7 +10,7 @@ const decoded = Buffer.from(process.env.FB_SERVICE_KEY, 'base64').toString('utf8
 const serviceAccount = JSON.parse(decoded);
 
 
-const stripe =  require('stripe')(process.env.STRIPE_SECRET);
+const stripe = require('stripe')(process.env.STRIPE_SECRET);
 
 const app = express();
 
@@ -80,7 +80,7 @@ const verifyFbToken = async (req, res, next) => {
   }
 }
 
-app.get('/', (req, res) => {
+app.get('/', () => {
   res.send('Hello World');
 })
 
@@ -88,8 +88,8 @@ app.get('/', (req, res) => {
 async function run() {
   try {
       // Connect the client to the server	(optional starting in v4.7)
-      await client.connect();
-      await client.db("admin").command({ ping: 1 });
+      // await client.connect();
+      // await client.db("admin").command({ ping: 1 });
 
       const myDB = client.db('myDB');
       const parcelColls = myDB.collection('parcelDB');
@@ -102,9 +102,7 @@ async function run() {
         { unique: true }
       );
       console.log("Pinged your deployment. You successfully connected to MongoDB!");
-      app.listen(PORT, (req, res)=>{
-          console.log(`Server Connected On Port: ${PORT}`);
-      })
+      
 
       // Create trackings
       const logTracking = async (id, status, email) => {
@@ -968,4 +966,8 @@ async function run() {
   }
 }
 run().catch(console.dir);
+
+app.listen(PORT, (req, res)=>{
+          console.log(`Server Connected On Port: ${PORT}`);
+      })
 
