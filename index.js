@@ -80,7 +80,7 @@ const verifyFbToken = async (req, res, next) => {
   }
 }
 
-app.get('/', () => {
+app.get('/', (req, res) => {
   res.send('Hello World');
 })
 
