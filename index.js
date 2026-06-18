@@ -5,7 +5,7 @@ const dotenv = require('dotenv')
 const admin = require("firebase-admin");
 
 dotenv.config()
-console.log("KEY:", process.env.DB_PASS);
+
 const decoded = Buffer.from(process.env.FB_SERVICE_KEY, 'base64').toString('utf8')
 const serviceAccount = JSON.parse(decoded);
 
@@ -88,8 +88,8 @@ app.get('/', (req, res) => {
 async function run() {
   try {
       // Connect the client to the server	(optional starting in v4.7)
-      // await client.connect();
-      // await client.db("admin").command({ ping: 1 });
+      await client.connect();
+      await client.db("admin").command({ ping: 1 });
 
       const myDB = client.db('myDB');
       const parcelColls = myDB.collection('parcelDB');
