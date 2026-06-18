@@ -967,7 +967,7 @@ async function run() {
 }
 run().catch(console.dir);
 
-app.listen(PORT, (req, res)=>{
-          console.log(`Server Connected On Port: ${PORT}`);
-      })
+app.listen(PORT, ()=>{
+    console.log(`Server Connected On Port: ${PORT}`);
+})
 
