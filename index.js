@@ -86,6 +86,7 @@ const verifyFbToken = async (req, res, next) => {
 app.get('/', (req, res) => {
   res.send('Hello World');
 })
+console.log("WEB_DOMAIN =", process.env.WEB_DOMAIN);
 
 
 async function run() {
@@ -684,7 +685,7 @@ async function run() {
       app.post('/create-checkout-session', verifyFbToken, async (req, res) => {
         const paymentInfo = req.body
         // console.log(paymentInfo.parcelId);
-        
+        console.log("RAW ENV WEB_DOMAIN =", process.env.WEB_DOMAIN);
         if(paymentInfo.senderEmail !== req.decoded_email){
           return res.status(403).send({message: 'Unauthorized Access'})
         }
