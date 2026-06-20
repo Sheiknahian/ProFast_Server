@@ -707,7 +707,7 @@ async function run() {
           },
           customer_email: paymentInfo.senderEmail,
           mode: 'payment',
-          success_url: `https://pro-fast-client-three.vercel.app/success-page?session_id={CHECKOUT_SESSION_ID}`,
+          success_url: `${process.env.WEB_DOMAIN}/success-page?session_id={CHECKOUT_SESSION_ID}`,
         });
         res.send({url: session.url});
       });
