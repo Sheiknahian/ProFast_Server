@@ -689,7 +689,7 @@ async function run() {
         if(paymentInfo.senderEmail !== req.decoded_email){
           return res.status(403).send({message: 'Unauthorized Access'})
         }
-
+        console.log('Start', process.env.WEB_DOMAIN);
         const session = await stripe.checkout.sessions.create({
           line_items: [
             {
@@ -713,6 +713,7 @@ async function run() {
           mode: 'payment',
           success_url: `${process.env.WEB_DOMAIN}/success-page?session_id={CHECKOUT_SESSION_ID}`,
         });
+        console.log('End', process.env.WEB_DOMAIN);
         res.send({url: session.url});
       });
 
