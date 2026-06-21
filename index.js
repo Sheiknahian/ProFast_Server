@@ -682,40 +682,40 @@ async function run() {
       })
 
       // Create checkout session with stripe
-      app.post('/create-checkout-session', verifyFbToken, async (req, res) => {
-        const paymentInfo = req.body
-        // console.log(paymentInfo.parcelId);
-        console.log("RAW ENV WEB_DOMAIN =", process.env.WEB_DOMAIN);
-        if(paymentInfo.senderEmail !== req.decoded_email){
-          return res.status(403).send({message: 'Unauthorized Access'})
-        }
-        console.log('Start', process.env.WEB_DOMAIN);
-        const session = await stripe.checkout.sessions.create({
-          line_items: [
-            {
-              price_data: {
-                currency: 'USD',
-                product_data: {
-                  name: paymentInfo.parcelName,
-                },
-                unit_amount: paymentInfo.price*100
-              },
-              quantity: 1,
-            },
-          ],
-          metadata: {
-            parcelId: paymentInfo.parcelId,
-            parcelName: paymentInfo.parcelName,
-            senderName: paymentInfo.senderName,
-            trackingId: paymentInfo.trackingId
-          },
-          customer_email: paymentInfo.senderEmail,
-          mode: 'payment',
-          // success_url: `${process.env.WEB_DOMAIN}/success-page?session_id={CHECKOUT_SESSION_ID}`,
-        });
-        console.log('End', process.env.WEB_DOMAIN);
-        res.send({url: session.url});
-      });
+      // app.post('/create-checkout-session', verifyFbToken, async (req, res) => {
+      //   const paymentInfo = req.body
+      //   // console.log(paymentInfo.parcelId);
+      //   console.log("RAW ENV WEB_DOMAIN =", process.env.WEB_DOMAIN);
+      //   if(paymentInfo.senderEmail !== req.decoded_email){
+      //     return res.status(403).send({message: 'Unauthorized Access'})
+      //   }
+      //   console.log('Start', process.env.WEB_DOMAIN);
+      //   const session = await stripe.checkout.sessions.create({
+      //     line_items: [
+      //       {
+      //         price_data: {
+      //           currency: 'USD',
+      //           product_data: {
+      //             name: paymentInfo.parcelName,
+      //           },
+      //           unit_amount: paymentInfo.price*100
+      //         },
+      //         quantity: 1,
+      //       },
+      //     ],
+      //     metadata: {
+      //       parcelId: paymentInfo.parcelId,
+      //       parcelName: paymentInfo.parcelName,
+      //       senderName: paymentInfo.senderName,
+      //       trackingId: paymentInfo.trackingId
+      //     },
+      //     customer_email: paymentInfo.senderEmail,
+      //     mode: 'payment',
+      //     // success_url: `${process.env.WEB_DOMAIN}/success-page?session_id={CHECKOUT_SESSION_ID}`,
+      //   });
+      //   console.log('End', process.env.WEB_DOMAIN);
+      //   res.send({url: session.url});
+      // });
 
       // Update payment status to paid and delivery status to confirmed-parcel
       app.patch('/payment-success', verifyFbToken, async (req, res)=>{
