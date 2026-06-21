@@ -15,7 +15,10 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET);
 const app = express();
 
 app.use(express.json());
-app.use(cors())
+app.use(cors({
+  origin: ['https://pro-fast-client-three.vercel.app', 'http://localhost:5173'],
+  credentials: true
+}));
 const PORT = process.env.PORT || 5000;
 
 admin.initializeApp({
@@ -83,6 +86,7 @@ const verifyFbToken = async (req, res, next) => {
 app.get('/', (req, res) => {
   res.send('Hello World');
 })
+console.log("WEB_DOMAIN =", process.env.WEB_DOMAIN);
 
 
 async function run() {
@@ -681,11 +685,11 @@ async function run() {
       app.post('/create-checkout-session', verifyFbToken, async (req, res) => {
         const paymentInfo = req.body
         // console.log(paymentInfo.parcelId);
-        
+        console.log("RAW ENV WEB_DOMAIN =", process.env.WEB_DOMAIN);
         if(paymentInfo.senderEmail !== req.decoded_email){
           return res.status(403).send({message: 'Unauthorized Access'})
         }
-
+        console.log('Start', process.env.WEB_DOMAIN);
         const session = await stripe.checkout.sessions.create({
           line_items: [
             {
@@ -707,8 +711,9 @@ async function run() {
           },
           customer_email: paymentInfo.senderEmail,
           mode: 'payment',
-          success_url: `http://localhost:5173/success-page?session_id={CHECKOUT_SESSION_ID}`,
+          success_url: `${process.env.WEB_DOMAIN}/success-page?session_id={CHECKOUT_SESSION_ID}`,
         });
+        console.log('End', process.env.WEB_DOMAIN);
         res.send({url: session.url});
       });
 
