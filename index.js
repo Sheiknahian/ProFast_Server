@@ -682,7 +682,7 @@ async function run() {
       })
 
       // Create checkout session with stripe
-      app.post('/create-checkout-session', verifyFbToken, async (req, res) => {
+      app.post('/create-checkout-session', async (req, res) => {
         const paymentInfo = req.body
         // console.log(paymentInfo.parcelId);
         console.log("RAW ENV WEB_DOMAIN =", process.env.WEB_DOMAIN);
